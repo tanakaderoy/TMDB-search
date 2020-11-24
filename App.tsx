@@ -37,13 +37,13 @@ export default function App() {
             <Text style={styles.title}>MoviesDB Search</Text>
           </View>
         </View>
-        <View>
+        <View style={{ paddingTop: 8 }}>
           <TextInput
             style={styles.search}
             placeholder={PLACEHOLDER_SEARCH}
             onChangeText={text => setQuery(text)}
             value={query}
-            onEndEditing={async () => await peformSearch()}
+            onSubmitEditing={async () => await peformSearch()}
           />
           <TouchableOpacity
             onPress={async () => await peformSearch()}
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     position: "absolute",
-    right: 0
+    right: 16,
+    top: 8
   }
 });
