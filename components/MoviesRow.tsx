@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   movieRow: {
     flex: 1,
     flexDirection: "row",
+    marginBottom: 8,
     padding: 16
   },
   movieTitle: {

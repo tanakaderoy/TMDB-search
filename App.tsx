@@ -12,7 +12,7 @@ import {
   View
 } from "react-native";
 import { searchMovie } from "./api/axios";
-import Logo from "./assets/logo.svg";
+import LogoSvg from "./components/LogoSVG";
 import MoviesRow from "./components/MoviesRow";
 import { Result } from "./models/MoviesResponse";
 import { COLORS } from "./Utils/colors";
@@ -32,7 +32,7 @@ export default function App() {
         <StatusBar style="light" />
 
         <View style={styles.header}>
-          <Logo width={50} height={50} />
+          <LogoSvg width={50} height={50} />
           <View style={styles.titleContainer}>
             <Text style={styles.title}>MoviesDB Search</Text>
           </View>
@@ -54,6 +54,8 @@ export default function App() {
         </View>
         <View>
           <FlatList
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
             data={results}
             keyExtractor={item => `${item.id}`}
             renderItem={({ item }) => <MoviesRow item={item} />}
