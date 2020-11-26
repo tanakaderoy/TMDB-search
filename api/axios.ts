@@ -30,3 +30,14 @@ export const searchMovie = async (query: string) => {
   });
   return Convert.toMoviesResponse(JSON.stringify(res.data));
 };
+
+export const searchTV = async (query: string) => {
+  ///search/movie?api_key=a5968df59cc3e43725bcb8d5a89aa34c&language=en-US&query=Avengers
+  const res = await tmdb.get("/search/tv", {
+    params: {
+      language: "en-US",
+      query
+    }
+  });
+  return Convert.toMoviesResponse(JSON.stringify(res.data));
+};

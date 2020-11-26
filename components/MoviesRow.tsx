@@ -3,22 +3,27 @@ import { Image, Linking, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-elements";
 import { Result } from "../models/MoviesResponse";
 import { COLORS } from "../Utils/colors";
-import { getTmdbImage } from "../Utils/utils";
+import { getTmdbImage, SearchType } from "../Utils/utils";
 
 interface Props {
   item: Result;
+  type: SearchType;
 }
 
-const MoviesRow = ({ item }: Props) => {
+const MoviesRow = ({ item, type }: Props) => {
   const handleClick = (id: Number) => {
-    Linking.canOpenURL("https://www.themoviedb.org/movie/" + id).then(
+    Linking.canOpenURL("https://www.themoviedb.org/" + type + "/" + id).then(
       supported => {
         if (supported) {
-          Linking.openURL("https://www.themoviedb.org/movie/" + id);
+          Linking.openURL(
+            "https://www.themoviedb.org/" + type.toLowerCase() + "/" + id
+          );
         } else {
           console.log(
             "Don't know how to open URI: " +
-              "https://www.themoviedb.org/movie/" +
+              "https://www.themoviedb.org/" +
+              type +
+              "/" +
               id
           );
         }

@@ -3,6 +3,7 @@ import Constants from "expo-constants";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
+  Dimensions,
   FlatList,
   SafeAreaView,
   StyleSheet,
@@ -11,21 +12,82 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { searchMovie } from "./api/axios";
+import { SceneMap, TabBar, TabView } from "react-native-tab-view";
+import { searchMovie, searchTV } from "./api/axios";
 import LogoSvg from "./components/LogoSVG";
 import MoviesRow from "./components/MoviesRow";
 import { Result } from "./models/MoviesResponse";
 import { COLORS } from "./Utils/colors";
-import { PLACEHOLDER_SEARCH } from "./Utils/constants";
+import {
+  PLACEHOLDER_MOVIE_SEARCH,
+  PLACEHOLDER_TV_SEARCH
+} from "./Utils/constants";
 
 export default function App() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Result[]>();
+  const [movies, setMovies] = useState<Result[]>();
+  const [tvShows, setTvShows] = useState<Result[]>();
+  const [placeHolder, setPlaceHolder] = useState(PLACEHOLDER_MOVIE_SEARCH);
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: "movie", title: "Movie" },
+    { key: "tv", title: "TV" }
+  ]);
 
   const peformSearch = async () => {
-    let movies = await searchMovie(query);
-    setResults(movies.results);
+    if (index == 0) {
+      let movies = await searchMovie(query);
+      setMovies(movies.results);
+    } else {
+      let shows = await searchTV(query);
+      setTvShows(shows.results);
+    }
   };
+
+  const MovieScreen = () => {
+    return (
+      <View>
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          data={movies}
+          keyExtractor={item => `${item.id}`}
+          renderItem={({ item }) => <MoviesRow type="movie" item={item} />}
+        />
+      </View>
+    );
+  };
+
+  const TVScreen = () => {
+    return (
+      <View>
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          data={tvShows}
+          keyExtractor={item => `${item.id}`}
+          renderItem={({ item }) => <MoviesRow type={"tv"} item={item} />}
+        />
+      </View>
+    );
+  };
+  const renderScene = SceneMap({
+    movie: MovieScreen,
+    tv: TVScreen
+  });
+  const initialLayout = { width: Dimensions.get("window").width };
+  const renderTabBar = (props: any) => (
+    <TabBar
+      {...props}
+      renderLabel={({ route, focused, color }) => (
+        <Text style={{ color: COLORS.secondary, fontSize: 16 }}>
+          {route.title}
+        </Text>
+      )}
+      indicatorStyle={{ backgroundColor: COLORS.tertiary }}
+      style={{ backgroundColor: COLORS.primary }}
+    />
+  );
   return (
     <View style={styles.back}>
       <SafeAreaView style={styles.container}>
@@ -34,13 +96,13 @@ export default function App() {
         <View style={styles.header}>
           <LogoSvg width={50} height={50} />
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>MoviesDB Search</Text>
+            <Text style={styles.title}>TMDB Search</Text>
           </View>
         </View>
         <View style={{ paddingTop: 8 }}>
           <TextInput
             style={styles.search}
-            placeholder={PLACEHOLDER_SEARCH}
+            placeholder={placeHolder}
             onChangeText={text => setQuery(text)}
             value={query}
             onSubmitEditing={async () => await peformSearch()}
@@ -52,15 +114,27 @@ export default function App() {
             <FontAwesome name="search" size={30} color="gray" />
           </TouchableOpacity>
         </View>
-        <View>
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={i => {
+            setIndex(i);
+            setPlaceHolder(
+              i == 0 ? PLACEHOLDER_MOVIE_SEARCH : PLACEHOLDER_TV_SEARCH
+            );
+          }}
+          initialLayout={initialLayout}
+          renderTabBar={renderTabBar}
+        />
+        {/* <View>
           <FlatList
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            data={results}
+            data={movies}
             keyExtractor={item => `${item.id}`}
             renderItem={({ item }) => <MoviesRow item={item} />}
           />
-        </View>
+        </View> */}
       </SafeAreaView>
     </View>
   );
