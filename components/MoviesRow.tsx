@@ -153,11 +153,12 @@ const styles = StyleSheet.create({
     fontWeight: "700"
   },
   descriptionContainer:{
-    width: '100%'
-    ,height: 200
+    height:200
   },
   textContainer: {
     paddingStart: 10,
+    flex:1,
+    height:225
   },
   buttonRow: {
     flexDirection: "row",
