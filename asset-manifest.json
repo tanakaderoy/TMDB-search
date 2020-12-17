@@ -1,7 +1,7 @@
 {
   "files": {
-    "app.js": "/TMDB-search/static/js/app.760a8427.chunk.js",
-    "app.js.map": "/TMDB-search/static/js/app.760a8427.chunk.js.map",
+    "app.js": "/TMDB-search/static/js/app.d7ea5882.chunk.js",
+    "app.js.map": "/TMDB-search/static/js/app.d7ea5882.chunk.js.map",
     "runtime~app.js": "/TMDB-search/static/js/runtime~app.b99b2052.js",
     "runtime~app.js.map": "/TMDB-search/static/js/runtime~app.b99b2052.js.map",
     "static/js/2.eaf63742.chunk.js": "/TMDB-search/static/js/2.eaf63742.chunk.js",
@@ -29,6 +29,6 @@
   "entrypoints": [
     "static/js/runtime~app.b99b2052.js",
     "static/js/2.eaf63742.chunk.js",
-    "static/js/app.760a8427.chunk.js"
+    "static/js/app.d7ea5882.chunk.js"
   ]
 }
