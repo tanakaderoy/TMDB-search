@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, Linking, StyleSheet, Text, View } from "react-native";
-import { Button } from "react-native-elements";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Result } from "../models/MoviesResponse";
 import { COLORS } from "../Utils/colors";
 import { getTmdbImage, SearchType } from "../Utils/utils";
@@ -10,8 +10,15 @@ interface Props {
   type: SearchType;
 }
 
+interface ButtonProps {
+  label: string;
+  backgroundColor: string;
+  action: VoidFunction;
+  labelColor: string;
+}
+
 const MoviesRow = ({ item, type }: Props) => {
-  const handleClick = (id: Number) => {
+  const openInBrowser = (id: Number) => {
     Linking.canOpenURL("https://www.themoviedb.org/" + type + "/" + id).then(
       supported => {
         if (supported) {
@@ -31,13 +38,61 @@ const MoviesRow = ({ item, type }: Props) => {
     );
   };
 
+  const getButton = ({
+    label,
+    labelColor,
+    backgroundColor,
+    action
+  }: ButtonProps) => {
+    return (
+      <View style={{ paddingVertical: 8, paddingHorizontal: 8 }}>
+        <TouchableOpacity
+          onPress={action}
+          style={{
+            backgroundColor,
+            borderRadius: 15,
+            width: 50,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.8,
+            shadowRadius: 2,
+            elevation: 5,
+            height: 30,
+            justifyContent: "center"
+          }}
+        >
+          <Text
+            style={{
+              color: labelColor,
+              fontSize: 12,
+              textAlign: "center",
+              fontWeight: "700"
+            }}
+          >
+            {label}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.movieRow}>
-      <View>
+      <View
+        style={{
+          ...styles.posterContainer,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.8,
+          shadowRadius: 2,
+          borderRadius: 8,
+          elevation: 5
+        }}
+      >
         <Image
           resizeMode="cover"
           source={{ uri: getTmdbImage(item.poster_path) }}
-          style={styles.poster}
+          style={[styles.posterContainer, styles.poster]}
         />
         <View style={styles.ratingContainer}>
           <Text
@@ -56,42 +111,19 @@ const MoviesRow = ({ item, type }: Props) => {
         <Text style={styles.movieTitle}>{item.title}</Text>
         <Text>{item.overview}</Text>
         <View style={styles.buttonRow}>
-          <Button
-            style={{ paddingVertical: 8, paddingHorizontal: 8 }}
-            type="outline"
-            buttonStyle={{
-              backgroundColor: COLORS.tertiary,
-              borderRadius: 15,
-              width: 50,
-              height: 30
-            }}
-            titleStyle={{
-              color: "#fff",
-              fontSize: 12,
-              textAlign: "center",
-              fontWeight: "700"
-            }}
-            title="Play"
-            onPress={() => console.log("Playing" + item.title)}
-          />
-          <Button
-            style={{ paddingVertical: 8 }}
-            type="outline"
-            buttonStyle={{
-              backgroundColor: "#fff",
-              borderRadius: 15,
-              width: 50,
-              height: 30
-            }}
-            titleStyle={{
-              color: "#000",
-              fontSize: 12,
-              textAlign: "center",
-              fontWeight: "700"
-            }}
-            title="View"
-            onPress={() => handleClick(item.id)}
-          />
+          {getButton({
+            label: "Play",
+            labelColor: "#fff",
+            backgroundColor: COLORS.tertiary,
+            action: () => console.log("Playing: " + item.title)
+          })}
+
+          {getButton({
+            label: "View",
+            labelColor: "#000",
+            backgroundColor: "#fff",
+            action: () => openInBrowser(item.id)
+          })}
         </View>
       </View>
     </View>
@@ -102,9 +134,11 @@ export default MoviesRow;
 
 const styles = StyleSheet.create({
   poster: {
-    width: 150,
-    height: 225,
     borderRadius: 8
+  },
+  posterContainer: {
+    width: 150,
+    height: 225
   },
   movieRow: {
     flex: 1,
@@ -132,6 +166,11 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     backgroundColor: COLORS.primary,
-    justifyContent: "center"
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5
   }
 });

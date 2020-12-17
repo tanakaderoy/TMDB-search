@@ -13,7 +13,7 @@ import {
   View
 } from "react-native";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
-import { searchMovie, searchTV } from "./api/axios";
+import { searchTMDB } from "./api/axios";
 import LogoSvg from "./components/LogoSVG";
 import MoviesRow from "./components/MoviesRow";
 import { Result } from "./models/MoviesResponse";
@@ -22,6 +22,7 @@ import {
   PLACEHOLDER_MOVIE_SEARCH,
   PLACEHOLDER_TV_SEARCH
 } from "./Utils/constants";
+import { SearchType } from "./Utils/utils";
 
 export default function App() {
   const [query, setQuery] = useState("");
@@ -35,13 +36,10 @@ export default function App() {
   ]);
 
   const peformSearch = async () => {
-    if (index == 0) {
-      let movies = await searchMovie(query);
-      setMovies(movies.results);
-    } else {
-      let shows = await searchTV(query);
-      setTvShows(shows.results);
-    }
+    let type: SearchType = index == 0 ? "movie" : "tv";
+    searchTMDB(type, query).subscribe(results =>
+      type == "movie" ? setMovies(results) : setTvShows(results)
+    );
   };
 
   const MovieScreen = () => {

@@ -1,6 +1,9 @@
 import { API_KEY } from "@env";
 import axios from "axios";
-import { Convert } from "../models/MoviesResponse";
+import { defer, Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { Convert, Result } from "../models/MoviesResponse";
+import { SearchType } from "../Utils/utils";
 
 const tmdb = axios.create({
   baseURL: "https://api.themoviedb.org/3"
@@ -19,6 +22,26 @@ tmdb.interceptors.response.use(res => {
   // Important: response interceptors **must** return the response.
   return res;
 });
+
+export const searchTMDB = (
+  type: SearchType,
+  query: string
+): Observable<Result[]> => {
+  return defer(() =>
+    tmdb.get(`/search/${type}`, {
+      params: {
+        language: "en-US",
+        query
+      }
+    })
+  ).pipe(
+    map(x =>
+      Convert.toMoviesResponse(JSON.stringify(x.data)).results.filter(
+        x => x.poster_path && x.overview
+      )
+    )
+  );
+};
 
 export const searchMovie = async (query: string) => {
   ///search/movie?api_key=a5968df59cc3e43725bcb8d5a89aa34c&language=en-US&query=Avengers
