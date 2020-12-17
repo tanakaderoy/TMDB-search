@@ -1,11 +1,11 @@
 {
   "files": {
-    "app.js": "/TMDB-search/static/js/app.4ba5fb0a.chunk.js",
-    "app.js.map": "/TMDB-search/static/js/app.4ba5fb0a.chunk.js.map",
+    "app.js": "/TMDB-search/static/js/app.b5aaf3ff.chunk.js",
+    "app.js.map": "/TMDB-search/static/js/app.b5aaf3ff.chunk.js.map",
     "runtime~app.js": "/TMDB-search/static/js/runtime~app.b99b2052.js",
     "runtime~app.js.map": "/TMDB-search/static/js/runtime~app.b99b2052.js.map",
-    "static/js/2.eaf63742.chunk.js": "/TMDB-search/static/js/2.eaf63742.chunk.js",
-    "static/js/2.eaf63742.chunk.js.map": "/TMDB-search/static/js/2.eaf63742.chunk.js.map",
+    "static/js/2.f66d197a.chunk.js": "/TMDB-search/static/js/2.f66d197a.chunk.js",
+    "static/js/2.f66d197a.chunk.js.map": "/TMDB-search/static/js/2.f66d197a.chunk.js.map",
     "fonts/AntDesign.ttf": "/TMDB-search/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/TMDB-search/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/TMDB-search/./fonts/Feather.ttf",
@@ -24,11 +24,11 @@
     "index.html": "/TMDB-search/index.html",
     "manifest.json": "/TMDB-search/manifest.json",
     "serve.json": "/TMDB-search/serve.json",
-    "static/js/2.eaf63742.chunk.js.LICENSE.txt": "/TMDB-search/static/js/2.eaf63742.chunk.js.LICENSE.txt"
+    "static/js/2.f66d197a.chunk.js.LICENSE.txt": "/TMDB-search/static/js/2.f66d197a.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime~app.b99b2052.js",
-    "static/js/2.eaf63742.chunk.js",
-    "static/js/app.4ba5fb0a.chunk.js"
+    "static/js/2.f66d197a.chunk.js",
+    "static/js/app.b5aaf3ff.chunk.js"
   ]
 }
