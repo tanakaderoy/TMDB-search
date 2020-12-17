@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Linking, StyleSheet, Text, View } from "react-native";
+import { Image, Linking, ScrollView, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Result } from "../models/MoviesResponse";
 import { COLORS } from "../Utils/colors";
@@ -109,7 +109,9 @@ const MoviesRow = ({ item, type }: Props) => {
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.movieTitle}>{item.title}</Text>
+        <ScrollView style={styles.descriptionContainer}>
         <Text>{item.overview}</Text>
+        </ScrollView>
         <View style={styles.buttonRow}>
           {getButton({
             label: "Play",
@@ -150,9 +152,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "700"
   },
+  descriptionContainer:{
+    width: '100%'
+    ,height: 200
+  },
   textContainer: {
-    flex: 1,
-    paddingStart: 10
+    paddingStart: 10,
   },
   buttonRow: {
     flexDirection: "row",
